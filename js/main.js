@@ -28,9 +28,23 @@ function displayMessages(){
         displayMessage += `
         <li>
             <input type='checkbox' id='item_${i}' ${item.checked ? 'checked' : ''}> 
-            <lable for="item_${i}">${item.todo}</lable>
+            <label for="item_${i}">${item.todo}</label>
         </li>
         `;
         ul.innerHTML = displayMessage;
     });
 }
+
+ul.addEventListener('change', function(event){
+    let idInput = event.target.getAttribute('id');
+    let forLabel = ul.querySelector('[for=' + idInput + ']');
+    let valueLabel = forLabel.innerHTML;
+    // console.log(valueLabel);
+
+    todoList.forEach(function(item){
+        if (item.todo === valueLabel){
+            item.checked = !item.checked;
+            localStorage.setItem('todo', JSON.stringify(todoList));
+        }
+    });
+});
